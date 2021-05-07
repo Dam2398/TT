@@ -3,14 +3,33 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
+import { UserComponent } from './components/user/user.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ProjectComponent } from './components/project/project.component';
+import { TeamComponent } from './components/team/team.component';
+import { LoginComponent } from './components/login/login.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
+import { AbouttoComponent } from './components/aboutto/aboutto.component';
+import { FormsModule } from '@angular/forms';
+import { environment } from './../environments/environment';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    UserComponent,
+    ProjectComponent,
+    TeamComponent,
+    LoginComponent,
+    ScheduleComponent,
+    AbouttoComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "b15dfe28-0103-462c-9e85-ea2e82c5e255"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
@@ -25,7 +28,8 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/images"
             ],
             "styles": [
               "src/styles.css"
@@ -88,7 +92,8 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/images"
             ],
             "styles": [
               "src/styles.css"
