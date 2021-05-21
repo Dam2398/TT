@@ -13,6 +13,8 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 import { AbouttoComponent } from './components/aboutto/aboutto.component';
 import { FormsModule } from '@angular/forms';
 import { environment } from './../environments/environment';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { BacklogComponent } from './components/backlog/backlog.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { environment } from './../environments/environment';
     TeamComponent,
     LoginComponent,
     ScheduleComponent,
-    AbouttoComponent
+    AbouttoComponent,
+    TasksComponent,
+    BacklogComponent
   ],
   imports: [
     BrowserModule,

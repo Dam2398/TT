@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'app-project',
@@ -17,7 +18,11 @@ export class ProjectComponent implements OnInit {
   ProjectName: any;
   ProjectDate: any;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(
+    private httpClient : HttpClient,
+    private router : Router,
+    private route : ActivatedRoute
+    ) { }
 
   ngOnInit(): void {
     if(environment.isLoggedIn) {
@@ -36,11 +41,20 @@ export class ProjectComponent implements OnInit {
   }
 
   printProject(that: any){
+    this.router.navigate(['Proyectos']);
     this.ProjectName = that.name
     if(that.fechaCreacion.includes("T")){
       that.fechaCreacion = that.fechaCreacion.split("T")
     }
     this.ProjectDate = that.fechaCreacion[0]
     this.selectedItem = that.id;
+  }
+
+  seeDevelopment(that: any){
+    this.router.navigate(['Equipo',that], { relativeTo: this.route });
+  }
+  
+  seeTasks(that: any) {
+    this.router.navigateByUrl('Backlog/Proyecto/' + that);
   }
 }

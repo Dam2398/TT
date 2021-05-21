@@ -1,0 +1,50 @@
+<!-- Bar Proyects -->
+<div class="container">
+    <!-- Stack the columns on mobile by making one full-width and the other half-width -->
+      <div class="row">
+        <div class="col">
+          </div>
+            <div class="col-6 text-center" style="padding: 2rem; height: 5rem;">
+                <h3>{{infoProject.name}}</h3>
+                <h6>{{infoProject.description}}</h6>
+            </div>
+          <div class="col">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" style="height: 3rem;"></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+        <!-- DropDowns -->
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a *ngFor="let sprint of sprints" [ngClass]="(sprint.id == this.selectedItem)?'nav-link active':'nav-link'" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" aria-selected="true" (click)="printSprint(sprint)">{{sprint.name}}</a>
+          </div>
+        </div>
+      <div class="col">
+        <!-- Tareas -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Daily Scrum</th>
+              <th scope="col">Fecha Inicio</th>
+              <th scope="col">Fecha Fin</th>
+              <th>
+                  <button type="button" class="btn btn-success btn-sm">Agregar Sprint</button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">{{this.daily}}</th>
+              <td>{{this.beginDate}}</td>
+              <td>{{this.endDate}}</td>
+              <td>
+                  <button type="button" class="btn btn-warning btn-sm" (click)="seeSprint(this.selectedItem)">Backlog</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <router-outlet></router-outlet>
+      </div>
+    </div>

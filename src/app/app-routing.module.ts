@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms'
 import { ProjectComponent } from './components/project/project.component';
 import { AbouttoComponent } from './components/aboutto/aboutto.component';
 import { UserComponent } from './components/user/user.component';
+import { TeamComponent } from './components/team/team.component';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { BacklogComponent } from './components/backlog/backlog.component';
 
 const routes: Routes = [
   {
@@ -13,7 +16,23 @@ const routes: Routes = [
   },
   {
     path:'Proyectos',
-    component: ProjectComponent
+    component: ProjectComponent,
+    children: [
+      {
+        path: 'Equipo/:id',
+        component: TeamComponent
+      }
+    ]
+  },
+  {
+    path: 'Backlog/Proyecto/:id',
+    component: TasksComponent,
+    children: [
+      {
+        path: 'Sprint/:idSprint',
+        component: BacklogComponent
+      }
+    ]
   },
   {
     path: 'Acerca',

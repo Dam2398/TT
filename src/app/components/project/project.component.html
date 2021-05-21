@@ -38,13 +38,14 @@
           <th scope="row">{{this.ProjectName}}</th>
           <td>{{this.ProjectDate}}</td>
           <td>
-              <button type="button" class="btn btn-info btn-sm">Backlog</button>
+              <button type="button" class="btn btn-info btn-sm" (click)="seeTasks(this.selectedItem)">Backlog</button>
           </td>
           <td>
-              <a class="btn btn-warning btn-sm" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Development Team</a>
+              <button type="button" class="btn btn-warning btn-sm" (click)="seeDevelopment(this.selectedItem)"> Development Team</button>
           </td>
         </tr>
       </tbody>
     </table>
+    <router-outlet></router-outlet>
   </div>
 </div>
