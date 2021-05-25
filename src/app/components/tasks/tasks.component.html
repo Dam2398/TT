@@ -18,6 +18,7 @@
         <div class="col-sm-3">
         <!-- DropDowns -->
           <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a style="background-color: #0072E1; color: white; height: 40px; border-radius: 5px;padding: 8px; padding-left: 37%;">SPRINTS</a>
             <a *ngFor="let sprint of sprints" [ngClass]="(sprint.id == this.selectedItem)?'nav-link active':'nav-link'" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" aria-selected="true" (click)="printSprint(sprint)">{{sprint.name}}</a>
           </div>
         </div>
