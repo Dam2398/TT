@@ -17,6 +17,12 @@ export class TeamComponent implements OnInit {
   user: any;
   teams: any = {};
   teamUser: any[] = [];
+  newPartnerArray: any [] = [];
+
+  public newPartner = {
+    email: '',
+    rol: ''
+  }
 
   constructor(
     private httpClient : HttpClient,
@@ -57,5 +63,16 @@ export class TeamComponent implements OnInit {
     }
 
     this.teams = this.teamUser
+  }
+
+  addNewTeamPartner(){
+    this.newPartnerArray[0] = this.newPartner
+    console.log(this.newPartner)
+    let headers = new HttpHeaders().set('auth', `${this.localToken}`);
+    this.httpClient.post<any>(this.urlTeam + 'projects/generarInv/?projectId=' + this.idProject + '&userId=' + this.idUser, this.newPartnerArray, {headers}).subscribe(response => {
+      if(response.msg != 'Se enviaron todos los correos') {
+        //Error de correo envio
+      } 
+    })
   }
 }

@@ -21,6 +21,20 @@ export class TasksComponent implements OnInit {
   beginDate: any;
   endDate: any;
 
+  public newSprint = {
+    name: '',
+    daily: '',
+    fechaInicio: '',
+    fechaFin: ''
+  }
+
+  public newTask = {
+    name: '',
+    description: '',
+    status: '',
+    priority: ''
+  }
+
   constructor(
     private httpClient : HttpClient,
     private router : Router,
@@ -65,7 +79,30 @@ export class TasksComponent implements OnInit {
   }
 
   seeSprint(that: any) {
+    console.log('nuex')
     this.router.navigate(['Sprint',that], { relativeTo: this.route });
   }
 
+  addNewSprint() {
+    let headers = new HttpHeaders().set('auth', `${this.localToken}`);
+    this.httpClient.post<any>(this.urlSprints + 'sprints/newSprint/?projectId=' + this.idProject + '&userId=' + this.idUser, this.newSprint, {headers}).subscribe(response => {
+      if(response.msg == 'OK') {
+        this.getSprints(this.idProject);
+      } else {
+        //handdle errors
+      }
+    })
+  }
+
+  addNewTask(){
+    console.log(this.newTask)
+    let headers = new HttpHeaders().set('auth', `${this.localToken}`);
+    this.httpClient.post<any>(this.urlSprints + 'tareas/nuevaTarea/?sprintId=' + this.selectedItem + '&projectId=' + this.idProject + '&userId=' + this.idUser, this.newTask , {headers}).subscribe(response => {
+      if(response.msg == 'OK') {
+        console.log('yes')
+      } else {
+        //handdle errors
+      }
+    })
+  }
 }

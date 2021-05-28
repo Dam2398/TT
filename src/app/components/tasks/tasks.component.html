@@ -18,6 +18,7 @@
         <div class="col-sm-3">
         <!-- DropDowns -->
           <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a style="background-color: #B98EFF; margin-bottom: 10%; color: white; height: 40px; border-radius: 5px;padding: 8px; padding-left: 37%;">SPRINTS</a>
             <a *ngFor="let sprint of sprints" [ngClass]="(sprint.id == this.selectedItem)?'nav-link active':'nav-link'" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-controls="v-pills-home" aria-selected="true" (click)="printSprint(sprint)">{{sprint.name}}</a>
           </div>
         </div>
@@ -30,7 +31,7 @@
               <th scope="col">Fecha Inicio</th>
               <th scope="col">Fecha Fin</th>
               <th>
-                  <button type="button" class="btn btn-success btn-sm">Agregar Sprint</button>
+                  <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#NewSprint">Agregar Sprint</button>
               </th>
             </tr>
           </thead>
@@ -42,9 +43,80 @@
               <td>
                   <button type="button" class="btn btn-warning btn-sm" (click)="seeSprint(this.selectedItem)">Backlog</button>
               </td>
+              <td>
+                <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#NewTask">+ Tarea</button>
+              </td>
             </tr>
           </tbody>
         </table>
         <router-outlet></router-outlet>
+      </div>
+    </div>
+    <div class="modal fade" id="NewSprint" tabindex="-1" aria-labelledby="NewSprintLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="NewSprintLabel">Agregar Sprint</h5>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" aria-label="Close">x</button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="SprintName">Nombre</label>
+                <input type="text" class="form-control" [(ngModel)]="newSprint.name" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group">
+                <label for="example-time-input">Daily</label>
+                  <input class="form-control" type="time" id="example-time-input" [(ngModel)]="newSprint.daily" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group">
+                <label for="example-date-input">Fecha de inicio</label>
+                  <input class="form-control" type="date" [(ngModel)]="newSprint.fechaInicio" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group">
+                <label for="example-date-input">Fecha final</label>
+                  <input class="form-control" type="date" [(ngModel)]="newSprint.fechaFin" [ngModelOptions]="{standalone: true}">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="addNewSprint()" data-bs-dismiss="modal">Agregar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="NewTask" tabindex="-1" aria-labelledby="NewTaskLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="NewTaskLabel">Agregar Tarea</h5>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal" aria-label="Close">x</button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="TaskName">Nombre</label>
+                <input type="text" class="form-control" [(ngModel)]="newTask.name" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group">
+                <label for="TaskDescription">Descripción</label>
+                <input type="text" class="form-control" [(ngModel)]="newTask.description" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group">
+                <label for="TaskStatus">Status</label>
+                <input type="text" class="form-control" [(ngModel)]="newTask.status" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group">
+                <label for="TaskPriority">Prioridad</label>
+                <input type="text" class="form-control" [(ngModel)]="newTask.priority" [ngModelOptions]="{standalone: true}">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="addNewTask()" data-bs-dismiss="modal">Agregar</button>
+          </div>
+        </div>
       </div>
     </div>

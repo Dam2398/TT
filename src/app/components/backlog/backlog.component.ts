@@ -17,52 +17,7 @@ export class BacklogComponent implements OnInit {
   idSprint: any;
   tasks: any = {};
   oneTask: any [] = [];
-  backlog = [
-    {
-      "id": 17,
-      "name": "Requisitos",
-      "description": "Identificar los miembros del equipo, cocineros, meseros, repartidores",
-      "status": "Done",
-      "priority": "Prioritario",
-      "fechaCreacion": "2021-04-28T06:23:38.300Z",
-      "fechaUpdate": "2021-04-29T07:39:01.246Z",
-      "urpId": 25,
-      "sprintId": 6
-    },
-    {
-      "id": 18,
-      "name": "Test",
-      "description": "Identificar los miembros del equipo, cocineros, meseros, repartidores",
-      "status": "Done",
-      "priority": "Urgente",
-      "fechaCreacion": "2021-04-28T06:23:38.300Z",
-      "fechaUpdate": "2021-04-29T07:39:01.246Z",
-      "urpId": 25,
-      "sprintId": 6
-    },
-    {
-      "id": 19,
-      "name": "Test 1",
-      "description": "Identificar los miembros del equipo, cocineros, meseros, repartidores",
-      "status": "Done",
-      "priority": "Importante",
-      "fechaCreacion": "2021-04-28T06:23:38.300Z",
-      "fechaUpdate": "2021-04-29T07:39:01.246Z",
-      "urpId": 25,
-      "sprintId": 6
-    },
-    {
-      "id": 20,
-      "name": "Test 2",
-      "description": "Identificar los miembros del equipo, cocineros, meseros, repartidores",
-      "status": "Done",
-      "priority": "Necesario",
-      "fechaCreacion": "2021-04-28T06:23:38.300Z",
-      "fechaUpdate": "2021-04-29T07:39:01.246Z",
-      "urpId": 25,
-      "sprintId": 6
-    }
-  ]
+  backlog: any;
 
   constructor(
     private httpClient : HttpClient,
@@ -79,8 +34,7 @@ export class BacklogComponent implements OnInit {
     let headers = new HttpHeaders().set('auth', `${this.localToken}`);
     let promiseTasks = this.httpClient.get(this.urlTasks + 'tareas/?sprintId=' + this.idSprint + '&userId=' + this.idUser + '&projectId=' + this.idProject, { headers }).toPromise();
     promiseTasks.then((data) => {
-      //this.backlog = data;
-      console.log(data);
+      this.backlog = data;
       this.backlogOrder(this.backlog);
     }).catch((error) => {
       console.log(error);
@@ -99,7 +53,7 @@ export class BacklogComponent implements OnInit {
 
       this.tasks = this.oneTask;
     }
-    console.log(this.tasks)
+    //console.log(this.tasks)
   }
 
 }

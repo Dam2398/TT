@@ -17,6 +17,12 @@ export class ProjectComponent implements OnInit {
   selectedItem: any;
   ProjectName: any;
   ProjectDate: any;
+  newProjectUrl = environment.API_URL + 'projects/new/?userId='
+
+  public newProject = {
+    name: '',
+    description: ''
+  }
 
   constructor(
     private httpClient : HttpClient,
@@ -56,5 +62,17 @@ export class ProjectComponent implements OnInit {
   
   seeTasks(that: any) {
     this.router.navigateByUrl('Backlog/Proyecto/' + that);
+  }
+
+  addNewProject(){
+    //console.log(this.newProject)
+    let headers = new HttpHeaders().set('auth', `${this.localToken}`);
+    this.httpClient.post<any>(this.newProjectUrl + this.idUser, this.newProject, {headers}).subscribe(response => {
+      if(response.msg == 'OK') {
+        this.getProjects();
+      } else {
+        //handdle errors
+      }
+    })
   }
 }
