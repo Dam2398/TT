@@ -79,7 +79,6 @@ export class TasksComponent implements OnInit {
   }
 
   seeSprint(that: any) {
-    console.log('nuex')
     this.router.navigate(['Sprint',that], { relativeTo: this.route });
   }
 
@@ -94,12 +93,11 @@ export class TasksComponent implements OnInit {
     })
   }
 
-  addNewTask(){
-    console.log(this.newTask)
+  async addNewTask(){
     let headers = new HttpHeaders().set('auth', `${this.localToken}`);
     this.httpClient.post<any>(this.urlSprints + 'tareas/nuevaTarea/?sprintId=' + this.selectedItem + '&projectId=' + this.idProject + '&userId=' + this.idUser, this.newTask , {headers}).subscribe(response => {
       if(response.msg == 'OK') {
-        console.log('yes')
+        this.router.navigateByUrl('Backlog/Proyecto/' + this.idProject);
       } else {
         //handdle errors
       }

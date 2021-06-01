@@ -1,10 +1,10 @@
-<div *ngFor="let item of tasks" class="card" style="width: 100%;">
-    <div class="card-header" [ngStyle]="{'background-color':item.priority === 'Prioritario' ? '#FF1212' : item.priority === 'Urgente' ? '#E98704' :  item.priority === 'Importante' ? '#FFFF50' : '#00E117' }">
-        <h5 class="card-title" style="color: black;">{{item.name}}</h5>
+<div *ngFor="let item of oneTask" class="card" style="width: 100%;">
+    <div class="card-header" [ngStyle]="{'background-color':item?.priority === 'Prioritario' ? '#FF1212' : item.priority === 'Urgente' ? '#E98704' :  item.priority === 'Importante' ? '#FFFF50' : '#00E117' }">
+        <h5 class="card-title" style="color: black;">{{item?.name}}</h5>
     </div>
     <div class="card-body">
-      <h6 class="card-subtitle mb-2 text-muted">{{item.priority}}</h6>
-      <p class="card-text">{{item.description}}</p>
-      <h6 class="card-subtitle mb-2 text-muted">Status: {{item.status}}</h6>
+      <h6 class="card-subtitle mb-2 text-muted">{{item?.priority}}</h6>
+      <p class="card-text">{{item?.description}}</p>
+      <h6 class="card-subtitle mb-2 text-muted">Status: {{item?.status}}</h6>
     </div>
   </div>
