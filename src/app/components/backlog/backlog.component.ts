@@ -15,7 +15,7 @@ export class BacklogComponent implements OnInit {
   urlTasks =  environment.API_URL;
   idProject: any;
   idSprint: any;
-  tasks: any = {};
+  tasks: any [] = [];
   oneTask: any [] = [];
   backlog: any;
 

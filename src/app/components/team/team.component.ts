@@ -15,7 +15,7 @@ export class TeamComponent implements OnInit {
   urlTeam =  environment.API_URL;
   idProject: any;
   user: any;
-  teams: any = {};
+  teams: any [] = [];
   teamUser: any[] = [];
   newPartnerArray: any [] = [];
 
