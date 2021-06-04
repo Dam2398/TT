@@ -65,13 +65,13 @@ export class TeamComponent implements OnInit {
     this.teams = this.teamUser
   }
 
-  addNewTeamPartner(){
+  async addNewTeamPartner(){
     this.newPartnerArray[0] = this.newPartner
-    console.log(this.newPartner)
     let headers = new HttpHeaders().set('auth', `${this.localToken}`);
-    this.httpClient.post<any>(this.urlTeam + 'projects/generarInv/?projectId=' + this.idProject + '&userId=' + this.idUser, this.newPartnerArray, {headers}).subscribe(response => {
+    await this.httpClient.post<any>(this.urlTeam + 'projects/generarInv/?projectId=' + this.idProject + '&userId=' + this.idUser, this.newPartnerArray, {headers}).subscribe(response => {
       if(response.msg != 'Se enviaron todos los correos') {
-        //Error de correo envio
+        this.newPartner.email = ''
+        this.newPartner.rol = ''
       } 
     })
   }

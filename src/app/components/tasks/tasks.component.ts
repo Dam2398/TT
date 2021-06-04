@@ -20,6 +20,8 @@ export class TasksComponent implements OnInit {
   daily: any;
   beginDate: any;
   endDate: any;
+  buttonShown: any;
+  buttonBacklog: any;
 
   public newSprint = {
     name: '',
@@ -42,6 +44,8 @@ export class TasksComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.buttonShown = false
+    this.buttonBacklog = false
     this.route.params.subscribe(params => {
       this.idProject = params['id'];
     });
@@ -71,6 +75,7 @@ export class TasksComponent implements OnInit {
   }
 
   printSprint(that: any){
+    this.buttonBacklog = true
     this.router.navigate(['Backlog/Proyecto/' + this.idProject]);
     this.daily = that.daily;
     this.beginDate = that.fechaInicio;
@@ -80,6 +85,7 @@ export class TasksComponent implements OnInit {
 
   seeSprint(that: any) {
     this.router.navigate(['Sprint',that], { relativeTo: this.route });
+    this.buttonShown = true
   }
 
   addNewSprint() {
@@ -87,6 +93,10 @@ export class TasksComponent implements OnInit {
     this.httpClient.post<any>(this.urlSprints + 'sprints/newSprint/?projectId=' + this.idProject + '&userId=' + this.idUser, this.newSprint, {headers}).subscribe(response => {
       if(response.msg == 'OK') {
         this.getSprints(this.idProject);
+        this.newSprint.name = '';
+        this.newSprint.daily = '';
+        this.newSprint.fechaInicio = '';
+        this.newSprint.fechaFin = '';
       } else {
         //handdle errors
       }
