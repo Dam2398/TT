@@ -68,7 +68,6 @@ export class ProjectComponent implements OnInit {
   }
 
   addNewProject(){
-    //console.log(this.newProject)
     let headers = new HttpHeaders().set('auth', `${this.localToken}`);
     this.httpClient.post<any>(this.newProjectUrl + this.idUser, this.newProject, {headers}).subscribe(response => {
       if(response.msg == 'OK') {

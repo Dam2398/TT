@@ -46,7 +46,6 @@ export class UserComponent implements OnInit {
   }
 
   editUser() {
-    //console.log(this.userUpdate)
     this.httpClient.patch<any>(this.urlUsers + this.id, this.userUpdate).subscribe(response => {
       if(response.msg == 'User update') {
         this.getUser();

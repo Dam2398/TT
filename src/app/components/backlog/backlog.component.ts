@@ -47,7 +47,6 @@ export class BacklogComponent implements OnInit {
     let promiseTasks = this.httpClient.get(this.urlTasks + 'tareas/?sprintId=' + this.idSprint + '&userId=' + this.idUser + '&projectId=' + this.idProject, { headers }).toPromise();
     promiseTasks.then((data) => {
       this.backlog = data;
-      console.log(this.backlog)
       this.backlogOrder(this.backlog);
     }).catch((error) => {
       console.log(error);

@@ -27,7 +27,6 @@ export class LoginComponent {
   }
 
   loginUser(){
-    //console.log(this.login);
     this.httpClient.post<any>(this.urlLogin, this.login).subscribe(response => {
       if(response.msg == 'OK') {
         this.saveToken(response.token, response.userId)
