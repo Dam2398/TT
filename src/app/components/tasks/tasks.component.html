@@ -40,10 +40,10 @@
               <th scope="row">{{this.daily}}</th>
               <td>{{this.beginDate}}</td>
               <td>{{this.endDate}}</td>
-              <td>
+              <td *ngIf="buttonBacklog">
                   <button type="button" class="btn btn-warning btn-sm" (click)="seeSprint(this.selectedItem)">Backlog</button>
               </td>
-              <td>
+              <td *ngIf="buttonShown">
                 <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#NewTask">+ Tarea</button>
               </td>
             </tr>
@@ -101,15 +101,24 @@
               </div>
               <div class="form-group">
                 <label for="TaskDescription">Descripción</label>
-                <input type="text" class="form-control" [(ngModel)]="newTask.description" [ngModelOptions]="{standalone: true}">
+                <input type="text"  style="height: 100px" class="form-control" [(ngModel)]="newTask.description" [ngModelOptions]="{standalone: true}">
               </div>
               <div class="form-group">
-                <label for="TaskStatus">Status</label>
-                <input type="text" class="form-control" [(ngModel)]="newTask.status" [ngModelOptions]="{standalone: true}">
+                <label for="TaskStatus">Status</label><br>
+                <select class="form-select form-control" [(ngModel)]="newTask.status" [ngModelOptions]="{standalone: true}">
+                  <option value="NotDone">Sin hacer</option>
+                  <option value="InProgress">En Progreso</option>
+                  <option value="Done">Hecho</option>
+                </select>
               </div>
               <div class="form-group">
-                <label for="TaskPriority">Prioridad</label>
-                <input type="text" class="form-control" [(ngModel)]="newTask.priority" [ngModelOptions]="{standalone: true}">
+                <label for="TaskPriority">Prioridad</label><br>
+                <select class="form-select form-control" [(ngModel)]="newTask.priority" [ngModelOptions]="{standalone: true}">
+                  <option value="Prioritario">Prioritario</option>
+                  <option value="Urgente">Urgente</option>
+                  <option value="Importante">Importante</option>
+                  <option value="Necesario">Necesario</option>
+                </select>
               </div>
             </form>
           </div>

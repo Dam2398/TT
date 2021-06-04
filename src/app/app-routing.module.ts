@@ -8,6 +8,7 @@ import { UserComponent } from './components/user/user.component';
 import { TeamComponent } from './components/team/team.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { BacklogComponent } from './components/backlog/backlog.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'Mi-Perfil',
     component: UserComponent
+  },
+  {
+    path: 'Agenda',
+    component: ScheduleComponent
   }
 ];
 

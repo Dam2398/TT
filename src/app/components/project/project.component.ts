@@ -18,6 +18,7 @@ export class ProjectComponent implements OnInit {
   ProjectName: any;
   ProjectDate: any;
   newProjectUrl = environment.API_URL + 'projects/new/?userId='
+  tableShown: any;
 
   public newProject = {
     name: '',
@@ -33,6 +34,7 @@ export class ProjectComponent implements OnInit {
   ngOnInit(): void {
     if(environment.isLoggedIn) {
       this.getProjects();
+      this.tableShown = false
     }
   }
 
@@ -47,6 +49,7 @@ export class ProjectComponent implements OnInit {
   }
 
   printProject(that: any){
+    this.tableShown = true
     this.router.navigate(['Proyectos']);
     this.ProjectName = that.name
     if(that.fechaCreacion.includes("T")){
@@ -70,6 +73,8 @@ export class ProjectComponent implements OnInit {
     this.httpClient.post<any>(this.newProjectUrl + this.idUser, this.newProject, {headers}).subscribe(response => {
       if(response.msg == 'OK') {
         this.getProjects();
+        this.newProject.name = '';
+        this.newProject.description = ''; 
       } else {
         //handdle errors
       }
