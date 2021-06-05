@@ -113,4 +113,10 @@ export class TasksComponent implements OnInit {
       }
     })
   }
+
+  onChat():void{
+    this.router.navigate(['chat'], {queryParams:{
+      projectId: this.idProject
+    }})
+  }
 }

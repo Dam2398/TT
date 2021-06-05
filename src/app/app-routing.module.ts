@@ -10,6 +10,10 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 
+import { ChatComponent } from "./components/chat/chat.component";
+import { InvitacionesComponent } from "./components/invitaciones/invitaciones.component";
+
+
 const routes: Routes = [
   {
     path:'',
@@ -46,7 +50,9 @@ const routes: Routes = [
   {
     path: 'Agenda',
     component: ScheduleComponent
-  }
+  },
+  {path: 'chat', component:ChatComponent },
+  {path: 'Invitacion', component:InvitacionesComponent}
 ];
 
 @NgModule({

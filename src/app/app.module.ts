@@ -12,9 +12,11 @@ import { LoginComponent } from './components/login/login.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { AbouttoComponent } from './components/aboutto/aboutto.component';
 import { FormsModule } from '@angular/forms';
-import { environment } from './../environments/environment';
+
 import { TasksComponent } from './components/tasks/tasks.component';
 import { BacklogComponent } from './components/backlog/backlog.component';
+import { InvitacionesComponent } from './components/invitaciones/invitaciones.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { BacklogComponent } from './components/backlog/backlog.component';
     ScheduleComponent,
     AbouttoComponent,
     TasksComponent,
-    BacklogComponent
+    BacklogComponent,
+    InvitacionesComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
