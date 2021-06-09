@@ -135,4 +135,9 @@ export class TasksComponent implements OnInit {
       projectId: this.idProject
     }})
   }
+  onKanbas():void{
+    this.router.navigate(['kanban'],{queryParams:{
+      projectId: this.idProject
+    }})
+  }
 }

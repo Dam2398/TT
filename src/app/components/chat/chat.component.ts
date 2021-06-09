@@ -65,6 +65,7 @@ export class ChatComponent implements OnInit {
     this.feedback='';
     if(!!!name) return;
     this.output.push({
+      id: '',
       msg:`🔻${name} is disconnected`,
       fecha: ''
     });
@@ -78,6 +79,7 @@ export class ChatComponent implements OnInit {
     this.feedback='';
     if(!!!name) return;
     this.output.push({
+      id: '',
       msg:`🟢${name} has connected`,
       fecha: ''
     });

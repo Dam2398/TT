@@ -63,7 +63,6 @@ export class ChartComponent {
       this.projectId = params['projectId'];//id del proyecto
       this.sprintId =params['sprintId'];
     });
-    console.log(this.projectId, this.sprintId);
 
     let headers = new HttpHeaders().set('auth',`${this.localToken}`);
     let promise = this.httpClient.get(this.urlTasks+ `tareas/?sprintId=${this.sprintId}&userId=${this.idUser}&projectId=${this.projectId}`,{headers}).toPromise();
