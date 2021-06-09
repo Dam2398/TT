@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
 
   value:boolean;
 
-  exp:boolean =true;
+  exp:boolean;
 
   constructor(private chatSvc:ChatService,
               private userSvc:UsuarioService,
@@ -52,23 +52,26 @@ export class HeaderComponent implements OnInit {
     this.pStyle='';
     this.value = false;
 
+    this.exp = true;
+
+        
+
     
    }
 
   ngOnInit(){
-    //console.log(this.value)
-    
-    //if(this.value){
+
 
 
       console.log('holadel try del header')
-      this.userId=  "2"//JSON.parse(this.storedToDos)["userId"];
-      this.userName= "Damian"//JSON.parse(this.storedToDos)["username"];
+      this.check(this.userSvc.checkToken())
+      //this.userSvc.checkToken()//pa chequiar
+      this.userId=  JSON.parse(this.storedToDos)["userId"];
+      this.userName= JSON.parse(this.storedToDos)["username"];
       console.log(this.userId,this.userName)
 
 
-      
-      //this.check()
+  
       this.route.params.subscribe(params => {
         this.projectId = params['id'];//Id del proyecto
       })
@@ -87,7 +90,7 @@ export class HeaderComponent implements OnInit {
   }
 
   
-desdeLogin():void{
+/* desdeLogin():void{
   this.value = true;
   console.log(this.value)
 }
@@ -95,34 +98,47 @@ desdeLogin():void{
 valores(user_id:any, user_anem:any):any{
   this.userId = user_id;
   this.userName = user_anem;
+} */
 
-}
+   check(valor:boolean):void{
+    if(valor){
 
-   
+      const msg = 'Ups tienes que iniciar sesión'
+      window.alert(msg);
+      console.log('listo')
+      this.router.navigateByUrl('/')
+    }
+   }
 
   logOut(){
 
     this.userSvc.logout()
     //this.exp= this.userSvc.checkToken()
     this.value = false;
-    //this.chatSvc.desconectar(); no sirve, no sabe que usuario eliminar
+    this.chatSvc.desconectar();// si sabe
     this.outnot = [];
   }
 
 
   cambiar() {
     this.notIcon = 0; 
+    this.exp = false;
+
   }
   ///////////////////////////////
-  updateNotifications(data:any){
+
+  updateNotifications(data:any){//Cunado reciba una notificaion que cuente
     if(!!!data) return;
+    console.log(data)
     this.outnot.push({
+      id:data.pr,
       nombre: data.name,
-      not: ` ${data.notification} en`,
+      not: ` ${data.notification} en `,
       proyecto: data.project,
       fecha: ''
     })
-    this.notIcon = this.notIcon+1;
+    this.exp = false;
+    this.notIcon = this.notIcon+1;//se suma
     console.log(this.outnot)
   }
 
@@ -130,7 +146,7 @@ valores(user_id:any, user_anem:any):any{
 
   displayNot(data:any){
     if(!!!data) return;
-    console.log(data);
+    //console.log(data);
 
     for (let i = 0; i < data.length; i++) {
       const yy = data[i].fechaCreacion.toString()
@@ -143,10 +159,11 @@ valores(user_id:any, user_anem:any):any{
           proyecto: '',
           fecha:  mm
         })
-        this.notIcon = this.notIcon+1;
+        //this.notIcon = this.notIcon+1;
         //console.log(data[i].notification);
       }
     }
+
   }
 
 }

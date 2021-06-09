@@ -12,6 +12,8 @@ import { ScheduleComponent } from './components/schedule/schedule.component';
 
 import { ChatComponent } from "./components/chat/chat.component";
 import { InvitacionesComponent } from "./components/invitaciones/invitaciones.component";
+import { ChartComponent } from "./components/chart/chart.component";
+import { KanbanComponent } from "./components/kanban/kanban.component";
 
 
 const routes: Routes = [
@@ -52,7 +54,9 @@ const routes: Routes = [
     component: ScheduleComponent
   },
   {path: 'chat', component:ChatComponent },
-  {path: 'Invitacion', component:InvitacionesComponent}
+  {path: 'Invitacion', component:InvitacionesComponent},
+  {path: 'grafica', component:ChartComponent},
+  {path: 'kanban', component:KanbanComponent}
 ];
 
 @NgModule({

@@ -1,0 +1,36 @@
+
+<app-header></app-header>
+<p>chart works!</p>
+
+<div class="container buena" style="display: block; width: 70%; height: 80%;">
+  <div class="text-center"> <h1>{{sprintNombre}}</h1> </div>
+  <div *ngIf="cambio" >
+    <canvas baseChart 
+      [datasets]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [chartType]="barChartType">
+    </canvas> 
+  </div >
+  <div *ngIf="!cambio">
+    <div class="chart">
+      <canvas baseChart
+        [data]="pieChartData"
+        [labels]="pieChartLabels"
+        [chartType]="pieChartType"
+        [options]="pieChartOptions"
+        [colors]="pieChartColors"
+        [plugins]="pieChartPlugins"
+        [legend]="pieChartLegend">
+      </canvas>
+    </div>
+  </div>
+  
+</div>
+
+<div class="container" style="margin-bottom: 30px;" >
+    <button class="btn btn-primary" (click)="randomize()">Cambiar</button>
+</div>
+
+  

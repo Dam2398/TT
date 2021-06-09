@@ -32,10 +32,10 @@ export class ProjectComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    if(environment.isLoggedIn) {
+    //if(environment.isLoggedIn) {
       this.getProjects();
       this.tableShown = false
-    }
+    //}
   }
 
   private getProjects() {

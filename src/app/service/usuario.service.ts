@@ -82,7 +82,7 @@ export class UsuarioService {
     if (err) {
       errorMessage = `Error: code ${err.message}`;
     }
-    window.alert(errorMessage);
+    window.alert('Correo o contraseña incorrectos');
     return throwError(errorMessage);
   }
 }

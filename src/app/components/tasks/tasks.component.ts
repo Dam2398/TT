@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 
+import { ChatService } from "./../../service/chat.service";
+
 @Component({
   selector: 'app-tasks',
   templateUrl: './tasks.component.html',
@@ -38,6 +40,7 @@ export class TasksComponent implements OnInit {
   }
 
   constructor(
+    private chatSvc:ChatService,
     private httpClient : HttpClient,
     private router : Router,
     private route : ActivatedRoute
@@ -47,7 +50,7 @@ export class TasksComponent implements OnInit {
     this.buttonShown = false
     this.buttonBacklog = false
     this.route.params.subscribe(params => {
-      this.idProject = params['id'];
+      this.idProject = params['id'];//id del proyecto
     });
 
     this.getProject(this.idProject);
@@ -60,6 +63,7 @@ export class TasksComponent implements OnInit {
     promiseSprints.then((data) => {
       this.sprints = data;
     }).catch((error) => {
+
       console.log(error);
     })
   }
@@ -72,20 +76,28 @@ export class TasksComponent implements OnInit {
     }).catch((error) => {
       console.log(error);
     })
-  }
+  } 
 
   printSprint(that: any){
     this.buttonBacklog = true
     this.router.navigate(['Backlog/Proyecto/' + this.idProject]);
     this.daily = that.daily;
     this.beginDate = that.fechaInicio;
-    this.endDate = that.fechaFin;
+    this.endDate = that.fechaFin; 
     this.selectedItem = that.id;
   }
 
-  seeSprint(that: any) {
+  seeSprint(that: any) {//ver tarea
     this.router.navigate(['Sprint',that], { relativeTo: this.route });
     this.buttonShown = true
+  }
+
+  goChart(id: any){//para la grafica
+    //this.router.navigate(['grafica',id] )
+    this.router.navigate(['grafica'], {queryParams:{
+      projectId: this.idProject,
+      sprintId: id
+    }})
   }
 
   addNewSprint() {
@@ -97,6 +109,8 @@ export class TasksComponent implements OnInit {
         this.newSprint.daily = '';
         this.newSprint.fechaInicio = '';
         this.newSprint.fechaFin = '';
+        const msg = `ha creado un sprint`;//not crearsprint
+        this.chatSvc.emit3('send-notification', 'n'+this.idProject,msg,this.idUser);
       } else {
         //handdle errors
       }
@@ -107,6 +121,8 @@ export class TasksComponent implements OnInit {
     let headers = new HttpHeaders().set('auth', `${this.localToken}`);
     this.httpClient.post<any>(this.urlSprints + 'tareas/nuevaTarea/?sprintId=' + this.selectedItem + '&projectId=' + this.idProject + '&userId=' + this.idUser, this.newTask , {headers}).subscribe(response => {
       if(response.msg == 'OK') {
+        const msg = `ha creado una tarea`;
+        this.chatSvc.emit3('send-notification', 'n'+this.idProject,msg,this.idUser)
         this.router.navigateByUrl('Backlog/Proyecto/' + this.idProject);
       } else {
         //handdle errors

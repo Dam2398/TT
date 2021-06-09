@@ -88,7 +88,7 @@ export class ChatComponent implements OnInit {
   displayMsg(data:any){
     this.feedback = '';
     if(!!!data) return;
-    console.log(data);
+    //console.log(data);            IMPRIMIR
     //console.log(`${data.name}: ${data.message}`);//YA FUNCIONA
     for (let i = 0; i < data.length; i++) {
       const yy = data[i].fechaCreacion.toString();
@@ -99,7 +99,7 @@ export class ChatComponent implements OnInit {
         fecha: mm
       });
     };
-    console.log(this.output);
+    //console.log(this.output);       IMPRIMIR
   }
 
   mal(data:any){
@@ -134,6 +134,12 @@ export class ChatComponent implements OnInit {
 
   messageTyping(): void {
     this.chatSvc.emit('typing','c'+this.projectId);    
+  }
+
+  salir():void{
+    //this.chatSvc.desconectar(); || Esta para cuando cierran sesion
+    this.chatSvc.emit('salir','c'+this.projectId);
+    this.router.navigate(['Backlog/Proyecto/',this.projectId])
   }
 
 

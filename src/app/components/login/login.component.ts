@@ -27,9 +27,8 @@ export class LoginComponent implements OnInit{
   loggg!:boolean;
 
   constructor(
+    private chatS:ChatService,
     private userSvc:UsuarioService,
-    private chatS: ChatService,
-    private httpClient: HttpClient,
     private router : Router  
   ) { }
 
@@ -45,13 +44,11 @@ export class LoginComponent implements OnInit{
         //this.hijo.desdeLogin();
         //this.hijo.valores(res.userId, res.username)
         this.router.navigate(['Proyectos']);
-        //this.chatS.conectar();
+        this.chatS.conectar();
         //this.userSvc.checkToken()
       }
     })
   }
-  check():void{
-    this.userSvc.checkToken()
-  }
+
 
 }

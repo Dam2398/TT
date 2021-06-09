@@ -18,6 +18,10 @@ import { BacklogComponent } from './components/backlog/backlog.component';
 import { InvitacionesComponent } from './components/invitaciones/invitaciones.component';
 import { ChatComponent } from './components/chat/chat.component';
 
+import { ChartComponent } from './components/chart/chart.component';
+import { ChartsModule } from "ng2-charts";
+import { KanbanComponent } from './components/kanban/kanban.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,13 +35,16 @@ import { ChatComponent } from './components/chat/chat.component';
     TasksComponent,
     BacklogComponent,
     InvitacionesComponent,
-    ChatComponent
+    ChatComponent,
+    ChartComponent,
+    KanbanComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
