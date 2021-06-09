@@ -8,6 +8,7 @@
           <label for="exampleDropdownFormPassword2">Contraseña</label>
           <input type="password" class="form-control" id="exampleDropdownFormPassword2" placeholder="Password" [(ngModel)]="login.password" [ngModelOptions]="{standalone: true}">
         </div>
+        <a routerLink="/Registrar" class="link-primary">Registrarse</a><br><br>
         <button class="btn btn-primary" (click)="loginUser()">Iniciar</button>
       </form>
     </div>

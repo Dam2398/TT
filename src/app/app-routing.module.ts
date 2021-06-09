@@ -9,6 +9,7 @@ import { TeamComponent } from './components/team/team.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,10 @@ const routes: Routes = [
   {
     path: 'Agenda',
     component: ScheduleComponent
+  },
+  {
+    path: 'Registrar',
+    component: RegisterComponent
   }
 ];
 
