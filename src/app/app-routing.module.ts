@@ -9,6 +9,7 @@ import { TeamComponent } from './components/team/team.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { BacklogComponent } from './components/backlog/backlog.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
+import { RegisterComponent } from './components/register/register.component';
 
 import { ChatComponent } from "./components/chat/chat.component";
 import { InvitacionesComponent } from "./components/invitaciones/invitaciones.component";
@@ -56,7 +57,11 @@ const routes: Routes = [
   {path: 'chat', component:ChatComponent },
   {path: 'Invitacion', component:InvitacionesComponent},
   {path: 'grafica', component:ChartComponent},
-  {path: 'kanban', component:KanbanComponent}
+  {path: 'kanban', component:KanbanComponent},
+  {
+    path: 'Registrar',
+    component: RegisterComponent
+  }
 ];
 
 @NgModule({

@@ -21,6 +21,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { ChartComponent } from './components/chart/chart.component';
 import { ChartsModule } from "ng2-charts";
 import { KanbanComponent } from './components/kanban/kanban.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { KanbanComponent } from './components/kanban/kanban.component';
     InvitacionesComponent,
     ChatComponent,
     ChartComponent,
-    KanbanComponent
+    KanbanComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

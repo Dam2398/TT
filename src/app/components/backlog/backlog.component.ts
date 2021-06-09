@@ -17,16 +17,21 @@ export class BacklogComponent implements OnInit {
   idSprint: any;
   tasks: any [] = [];
   oneTask: any [] = [];
+  teamURP: any;
   backlog: any;
   selectedItem: any;
+  assignedURP: any;
+  allUsers: any;
+  user: any;
+  teamUser: any[] = [];
+  teams: any [] = [];
+  idEditTask: any;
 
   public editTask = {
     name: '',
     description: '',
     status: '',
     priority: '',
-    fechaCreacion: '',
-    fechaUpdate: '',
     urpId: 0,
     sprintId: 0,
   }
@@ -37,23 +42,40 @@ export class BacklogComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.Activateroute.params.subscribe(params => {
       this.idSprint = params['idSprint'];
     });
     this.idProject = (this.router.url).split('/')[3];
 
     let headers = new HttpHeaders().set('auth', `${this.localToken}`);
+
+    let promiseTeamUrp = this.httpClient.get(this.urlTasks + 'urp/equipo/?projectId=' + this.idProject + '&userId=' + this.idUser, {headers}).toPromise();
+    await promiseTeamUrp.then((data) => {
+      this.teamURP = data;
+    }).catch((error) => {
+      console.log(error);
+    })
+
     let promiseTasks = this.httpClient.get(this.urlTasks + 'tareas/?sprintId=' + this.idSprint + '&userId=' + this.idUser + '&projectId=' + this.idProject, { headers }).toPromise();
-    promiseTasks.then((data) => {
+    await promiseTasks.then((data) => {
       this.backlog = data;
-      this.backlogOrder(this.backlog);
+    }).catch((error) => {
+      console.log(error);
+    })
+
+    await this.backlogOrder(this.backlog, this.teamURP);
+
+    let promiseDevelopmentTeam = this.httpClient.get(this.urlTasks + 'urp/equipo/?projectId=' + this.idProject + '&userId=' + this.idUser, { headers }).toPromise();
+    promiseDevelopmentTeam.then((data) => {
+      this.allUsers = data;
+      this.getAlllUsers(this.allUsers)
     }).catch((error) => {
       console.log(error);
     })
   }
   
-  backlogOrder(these: any) {
+  async backlogOrder(these: any, usersURP: any) {
     let idPrior;
     for(let i = 0; i < these.length; i++) {
       if(these[i].priority == 'Prioritario') {
@@ -68,6 +90,26 @@ export class BacklogComponent implements OnInit {
 
       if(these[i].urpId == null) {
         these[i].urpId = 'Sin Asignar'
+      } else {
+        for(let j = 0; j < usersURP.length; j++) {
+          if(these[i].urpId == usersURP[j].userId) {
+            let getOneUser = this.httpClient.get(this.urlTasks + 'users/' + usersURP[j].userId ).toPromise();
+            await getOneUser.then((data) => {
+              this.assignedURP = data
+              these[i].urpId = 'Asignada a: ' + this.assignedURP.firstName + ' ' + this.assignedURP.lastName
+            }).catch((error) => {
+              console.log(error);
+            })
+          }
+        }
+      }
+
+      if(these[i].status == 'InProgress') {
+        these[i].status = 'En Progreso'
+      } else if (these[i].status == 'Done') {
+        these[i].status = 'Hecho'
+      } else if (these[i].status == 'NotDone') {
+        these[i].status = 'Sin hacer'
       }
 
       this.oneTask.push({
@@ -88,15 +130,54 @@ export class BacklogComponent implements OnInit {
       return x; 
     });
   }
+
+  async getAlllUsers(these: any) {
+    for(let i = 0; i < these.length; i++) {
+
+      let PromiseUserbyId = this.httpClient.get(this.urlTasks + 'users/' + these[i].userId).toPromise();
+      await PromiseUserbyId.then((data) => {
+        this.user = data
+
+        this.teamUser.push({
+          "urpId" : these[i].id,
+          "id" : these[i].userId,
+          "name" : this.user.firstName +  ' ' +this.user.lastName,
+          "role" : these[i].rol,
+          "email" : this.user.email
+        });
+
+      }).catch((error) => {
+        console.log(error);
+      })
+    }
+
+    this.teams = this.teamUser
+  }
+
   seeTask(taskEdit: any) {
     this.editTask.name = taskEdit.name
     this.editTask.description = taskEdit.description
     this.editTask.status = taskEdit.status
     this.editTask.priority = taskEdit.priority
-    this.editTask.urpId = taskEdit.assigned
     this.editTask.sprintId = taskEdit.sprintId
-    console.log(taskEdit)
-    console.log(this.editTask)
-    //console.log(new Date())
+    this.idEditTask = taskEdit.id
+  }
+
+  addEditTask(){
+    if (this.editTask.status == 'Sin hacer') {
+      this.editTask.status = 'NotDone'
+    } else if (this.editTask.status == 'En Progreso') {
+      this.editTask.status = 'InProgress'
+    } else if (this.editTask.status == 'Hecho') {
+      this.editTask.status = 'Done'
+    }
+    let headers = new HttpHeaders().set('auth', `${this.localToken}`);
+    this.httpClient.patch<any>(this.urlTasks + 'tareas/edit/' + this.idEditTask + '?sprintId=' + this.idSprint +'&userId=' + this.idUser + '&projectId=' + this.idProject ,this.editTask, {headers}).subscribe(response => {
+      if (response.msg == 'Tarea update'){
+        this.router.navigate(['Backlog/Proyecto/' + this.idProject])
+      } else {
+        //handdle errors
+      }
+    })
   }
 }
