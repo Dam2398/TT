@@ -164,6 +164,13 @@ export class BacklogComponent implements OnInit {
   }
 
   addEditTask(){
+    if (this.editTask.status == 'Sin hacer') {
+      this.editTask.status = 'NotDone'
+    } else if (this.editTask.status == 'En Progreso') {
+      this.editTask.status = 'InProgress'
+    } else if (this.editTask.status == 'Hecho') {
+      this.editTask.status = 'Done'
+    }
     let headers = new HttpHeaders().set('auth', `${this.localToken}`);
     this.httpClient.patch<any>(this.urlTasks + 'tareas/edit/' + this.idEditTask + '?sprintId=' + this.idSprint +'&userId=' + this.idUser + '&projectId=' + this.idProject ,this.editTask, {headers}).subscribe(response => {
       if (response.msg == 'Tarea update'){
