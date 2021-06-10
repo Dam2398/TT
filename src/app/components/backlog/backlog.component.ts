@@ -32,7 +32,7 @@ export class BacklogComponent implements OnInit {
     description: '',
     status: '',
     priority: '',
-    urpId: 0,
+    urpId: null,
     sprintId: 0,
   }
 
@@ -61,6 +61,7 @@ export class BacklogComponent implements OnInit {
     await promiseTasks.then((data) => {
       this.backlog = data;
     }).catch((error) => {
+      window.alert('No hay tareas')
       console.log(error);
     })
 
@@ -92,7 +93,7 @@ export class BacklogComponent implements OnInit {
         these[i].urpId = 'Sin Asignar'
       } else {
         for(let j = 0; j < usersURP.length; j++) {
-          if(these[i].urpId == usersURP[j].userId) {
+          if(these[i].urpId == usersURP[j].id) {
             let getOneUser = this.httpClient.get(this.urlTasks + 'users/' + usersURP[j].userId ).toPromise();
             await getOneUser.then((data) => {
               this.assignedURP = data
@@ -132,6 +133,7 @@ export class BacklogComponent implements OnInit {
   }
 
   async getAlllUsers(these: any) {
+    console.log(these)
     for(let i = 0; i < these.length; i++) {
 
       let PromiseUserbyId = this.httpClient.get(this.urlTasks + 'users/' + these[i].userId).toPromise();

@@ -51,7 +51,7 @@
             <div class="form-group">
               <label for="Assignation">Asignado a:</label><br>
               <select class="form-select form-control" [(ngModel)]="editTask.urpId" [ngModelOptions]="{standalone: true}">
-                <option *ngFor="let item of teams" [value]="item?.id">{{item?.name}}</option>
+                <option *ngFor="let item of teams" [value]="item?.urpId">{{item?.name}}</option>
               </select>
             </div>
           </form>

@@ -11,6 +11,12 @@ import { BacklogComponent } from './components/backlog/backlog.component';
 import { ScheduleComponent } from './components/schedule/schedule.component';
 import { RegisterComponent } from './components/register/register.component';
 
+import { ChatComponent } from "./components/chat/chat.component";
+import { InvitacionesComponent } from "./components/invitaciones/invitaciones.component";
+import { ChartComponent } from "./components/chart/chart.component";
+import { KanbanComponent } from "./components/kanban/kanban.component";
+
+
 const routes: Routes = [
   {
     path:'',
@@ -48,6 +54,10 @@ const routes: Routes = [
     path: 'Agenda',
     component: ScheduleComponent
   },
+  {path: 'chat', component:ChatComponent },
+  {path: 'Invitacion', component:InvitacionesComponent},
+  {path: 'grafica', component:ChartComponent},
+  {path: 'kanban', component:KanbanComponent},
   {
     path: 'Registrar',
     component: RegisterComponent

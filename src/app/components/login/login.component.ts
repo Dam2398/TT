@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component ,OnInit,ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
 import { Router } from '@angular/router'
+import { UsuarioService } from './../../service/usuario.service';
+import { HeaderComponent } from "./../header/header.component";
+import { ChatService } from "./../../service/chat.service";
 
 @Component({
   selector: 'app-login',
@@ -9,7 +12,10 @@ import { Router } from '@angular/router'
   styleUrls: ['./login.component.css']
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit{
+
+  @ViewChild(HeaderComponent) hijo!:HeaderComponent ;
+
 
   urlLogin = environment.API_URL + 'auth/login'
 
@@ -18,28 +24,31 @@ export class LoginComponent {
     password: ''
   }
 
+  loggg!:boolean;
+
   constructor(
-    private httpClient: HttpClient,
+    private chatS:ChatService,
+    private userSvc:UsuarioService,
     private router : Router  
   ) { }
 
   ngOnInit(): void {
+    this.userSvc.checkToken()
   }
 
   loginUser(){
-    this.httpClient.post<any>(this.urlLogin, this.login).subscribe(response => {
-      if(response.msg == 'OK') {
-        this.saveToken(response.token, response.userId)
-        environment.isLoggedIn = true;
-        this.router.navigate(['Proyectos'])
-      } else {
-        //handdle errors
+    this.userSvc.login(this.login).subscribe((res)=>{
+      if(res){
+        //this.loggg=true;
+        //console.log('Este es el loggg',this.loggg)
+        //this.hijo.desdeLogin();
+        //this.hijo.valores(res.userId, res.username)
+        this.router.navigate(['Proyectos']);
+        this.chatS.conectar();
+        //this.userSvc.checkToken()
       }
     })
   }
 
-  private saveToken(token: any, idUser: any) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('idUser', idUser);
-  }
+
 }

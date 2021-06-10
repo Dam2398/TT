@@ -26,6 +26,12 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
+            "allowedCommonJsDependencies": [
+              "socket.io-client",
+              "socket.io-parser",
+              "debug",
+              "chart.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets",

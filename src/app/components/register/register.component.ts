@@ -28,9 +28,9 @@ export class RegisterComponent implements OnInit {
   }
 
   async addNewUser(){
-    console.log(this.newUser)
+    //console.log(this.newUser)
     await this.httpClient.post<any>(this.url + 'users/newUser', this.newUser).subscribe(response => {
-      console.log(response)
+      this.router.navigate(['/']);
       //ya estufas
     })
   }
