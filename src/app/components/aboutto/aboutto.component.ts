@@ -11,7 +11,7 @@ export class AbouttoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(environment.isLoggedIn)
+    //console.log(environment.isLoggedIn)
   }
 
 }

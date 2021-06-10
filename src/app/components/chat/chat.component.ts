@@ -37,7 +37,6 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.projectId = params['projectId'];//Id del proyecto
-      console.log(this.projectId);
     })
 
     this.chatSvc.listen('user-connected').subscribe((data) => this.userConnected(data));
@@ -53,12 +52,11 @@ export class ChatComponent implements OnInit {
     this.chatSvc.listen('chat-message').subscribe((data)=> this.updateMessage(data));//ya recibe la info
 
 
-    this.chatSvc.listen('error').subscribe((data)=>console.log(data));
+    //this.chatSvc.listen('error').subscribe((data)=>console.log(data));
     this.chatSvc.listen('mal').subscribe((data)=>this.mal(data));
 
     this.chatSvc.listen('old-msg').subscribe((data)=>this.displayMsg(data));
 
-    console.log('hola'+this.userId);
   }
 
   userDisconnected(name:any){
@@ -106,8 +104,7 @@ export class ChatComponent implements OnInit {
 
   mal(data:any){
     this.router.navigate(['Proyectos']);
-    console.log(this.userId);
-    console.log(data);
+
   }
 
 
@@ -120,7 +117,6 @@ export class ChatComponent implements OnInit {
       msg: data,
       fecha: ''
     });
-    console.log(this.output);
   }
 
   sendMessage(): void {//si envia al servidor

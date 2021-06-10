@@ -101,7 +101,6 @@ export class KanbanComponent implements OnInit {
         prioridad: data[i].priority
       })
     }
-    console.log(this.output)
   }
 
   async displayAsig(data:any){
@@ -142,17 +141,9 @@ export class KanbanComponent implements OnInit {
 
     setTimeout(() => {//si es esto
       this.outputTres = this.outputDos
-      console.log( this.outputDos)
-      //this.unir(this.outputDos)
     }, 1000);
   }
 
-  unir(uno:any){
-    console.log('hola')
-    for (let i = 0; i < uno.length; i++) {
-      console.log( uno[i]['miembro'] )
-      
-    }
-  }
+
 
 }

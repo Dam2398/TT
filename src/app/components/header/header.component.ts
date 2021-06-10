@@ -62,13 +62,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit(){
 
 
-
-      console.log('holadel try del header')
       this.check(this.userSvc.checkToken())
       //this.userSvc.checkToken()//pa chequiar
       this.userId=  JSON.parse(this.storedToDos)["userId"];
       this.userName= JSON.parse(this.storedToDos)["username"];
-      console.log(this.userId,this.userName)
+
 
 
   
@@ -81,7 +79,7 @@ export class HeaderComponent implements OnInit {
       //
       this.chatSvc.listen('notification-received').subscribe((data)=> this.updateNotifications(data) )
       //
-      this.chatSvc.listen('error').subscribe((data)=>console.log(data))
+      //this.chatSvc.listen('error').subscribe((data)=>console.log(data))
       //this.chatSvc.listen('mal').subscribe((data)=>this.mal(data));
   
   

@@ -51,7 +51,6 @@ export class InvitacionesComponent implements OnInit {
     let headers = new HttpHeaders().set('auth', `${this.localToken}`)
     this.httpClient.post<any>(this.urlINV + `?userId=${this.idUser}`,this.datosForm , {headers}).subscribe(responde =>{
       this.salida = responde;
-      console.log(this.salida)
     });
 
   }

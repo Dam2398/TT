@@ -58,7 +58,7 @@ export class UsuarioService {
   public checkToken():any{
     const userToken:any = localStorage.getItem('token');
     const isExpired =helper.isTokenExpired(userToken);//helper
-    console.log('IsExpired->', isExpired);
+    //console.log('IsExpired->', isExpired);
     if(isExpired){
       this.logout();
       return true

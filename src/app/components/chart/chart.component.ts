@@ -68,9 +68,9 @@ export class ChartComponent {
     let promise = this.httpClient.get(this.urlTasks+ `tareas/?sprintId=${this.sprintId}&userId=${this.idUser}&projectId=${this.projectId}`,{headers}).toPromise();
     promise.then((data)=>{
       this.backlog =data;
-      console.log(this.backlog)
-      console.log(this.backlog[0]['status'])
-      console.log(this.backlog.length)
+      //console.log(this.backlog)
+      //console.log(this.backlog[0]['status'])
+      //console.log(this.backlog.length)
       this.separar(this.backlog)
     }).catch((error)=>{
       console.log(error);
@@ -79,7 +79,7 @@ export class ChartComponent {
     let sprintpro = this.httpClient.get(this.urlTasks+`sprints/byid/${this.sprintId}?&userId=${this.idUser}&projectId=${this.projectId}`,{headers}).toPromise();
     sprintpro.then((data)=>{
       this.sprint = data
-      console.log(this.sprint['name'])
+      //console.log(this.sprint['name'])
       this.sprintNombre = this.sprint['name']
     }).catch((error)=>{
       console.log(error)
@@ -112,11 +112,11 @@ export class ChartComponent {
   }
   // events
   public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
+    //console.log(event, active);
   }
 
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    console.log(event, active);
+    //console.log(event, active);
   }
 
   public randomize(): void {//Cambio de graficas
