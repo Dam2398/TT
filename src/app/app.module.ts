@@ -23,6 +23,7 @@ import { ChartsModule } from "ng2-charts";
 import { KanbanComponent } from './components/kanban/kanban.component';
 import { RegisterComponent } from './components/register/register.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
