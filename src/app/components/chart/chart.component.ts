@@ -1,9 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartDataSets, ChartType, ChartOptions, ChartColor } from "chart.js";
+import * as moment from 'moment';
 import { Color, Label ,PluginServiceGlobalRegistrationAndOptions} from "ng2-charts";
-import { environment } from 'src/environments/environment';
+import { environment } from './../../../environments/environment';
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -13,11 +16,33 @@ import { environment } from 'src/environments/environment';
 })
 export class ChartComponent {
 
+  //Para el pdf
+  @ViewChild('content',{static: false}) el!: ElementRef;
+
   urlTasks =  environment.API_URL;
   backlog: any;
   sprint:any;
   sprintNombre:any;
-  cambio:boolean =true;
+
+  com1:boolean= false;
+  com2:boolean= false;
+  com3:boolean= false;
+
+  hoy:any;
+
+  barras: boolean =true;
+  pastel:boolean = false;
+  pendiente: boolean = false;
+  ActBar:any = 'Ocultar';
+  ActPas:any = 'Mostrar';
+  ActPen:any = 'Mostrar';
+  fechaINicio:any;
+  fechaFin:any;
+  fechaInSa:any;
+  fechaFiSa:any;
+
+  puntos:number[]=[];
+  puntosCorrectos:number[] = [];
 
   projectId: any;
   sprintId:any;
@@ -42,7 +67,28 @@ export class ChartComponent {
 
   };
   
+  public lineChartOptions: ChartOptions = {
+    elements:{
+      line:{
+        fill:false//eliminar background
+      }
+    },
+    responsive: true,
+    scales:{
+      yAxes:[{
+        display:true,
+        scaleLabel:{
+          display:true,
+          labelString:'Tareas'
+        },
+        ticks:{
+          beginAtZero:true
+        }
+      }]
+    },
     
+  };  
+
   public barChartLabels: Label[] = ['Estado de las tareas'];
   public barChartType: ChartType = 'bar';
   public barChartLegend = true;
@@ -53,6 +99,30 @@ export class ChartComponent {
     { data: [10], label: 'En Progreso' },
     { data: [10], label: 'Hecho' , backgroundColor:'rgb(120, 222, 120)', borderColor:'rgb(120, 222, 120)', hoverBackgroundColor:'rgb(120, 222, 120)'}
   ];
+
+  public lineChartData: ChartDataSets[] = [
+    { data: [10], label: 'Tareas restantes' },
+    { data: [10], label: 'Tereas restantes ideales'},
+  ];
+
+  public lineChartLabels: Label[] = [];
+
+ 
+  public lineChartColors: Color[] = [
+    
+    {
+      borderColor:'red',
+      backgroundColor: 'red'
+    },
+    {
+      borderColor: 'black',
+      backgroundColor:'#FFFFFF'
+    }
+  ];
+  public lineChartLegend = true;
+  public lineChartType : ChartType  = 'line';
+  public lineChartPlugins = [];
+  
 
   constructor(private router: Router,
               private httpClient : HttpClient,
@@ -72,20 +142,64 @@ export class ChartComponent {
       //console.log(this.backlog[0]['status'])
       //console.log(this.backlog.length)
       this.separar(this.backlog)
+      
+      let sprintpro = this.httpClient.get(this.urlTasks+`sprints/byid/${this.sprintId}?&userId=${this.idUser}&projectId=${this.projectId}`,{headers}).toPromise();
+      sprintpro.then((data)=>{
+        this.sprint = data
+        this.sprintNombre = this.sprint['name']
+        this.linea(this.sprint,this.backlog)
+      }).catch((error)=>{
+        console.log(error)
+      })
     }).catch((error)=>{
       console.log(error);
     })
 
-    let sprintpro = this.httpClient.get(this.urlTasks+`sprints/byid/${this.sprintId}?&userId=${this.idUser}&projectId=${this.projectId}`,{headers}).toPromise();
-    sprintpro.then((data)=>{
-      this.sprint = data
-      //console.log(this.sprint['name'])
-      this.sprintNombre = this.sprint['name']
-    }).catch((error)=>{
-      console.log(error)
-    })
+    
   }
 
+  linea(sprint:any, tareas:any){
+    this.fechaINicio = sprint['fechaInicio']
+    this.fechaInSa = String(this.fechaINicio).split('-').reverse().join('-')
+    this.fechaFin = sprint['fechaFin']; 
+    this.fechaFiSa = String(this.fechaFin).split('-').reverse().join('-')
+    let TiempoSprint = Math.abs(moment(this.fechaINicio).diff(moment(this.fechaFin),'days'))
+    this.puntos[0] = tareas.length
+    console.log(this.fechaINicio,this.fechaFin)
+
+    
+    let hoy2 =new Date()
+    console.log(hoy2.getDate()+'/'+(hoy2.getMonth()+1)+'/'+hoy2.getFullYear())
+    this.hoy= hoy2.getDate()+'/'+(hoy2.getMonth()+1)+'/'+hoy2.getFullYear()
+
+    let TimepoHoy = Math.abs(moment(this.fechaINicio).diff(moment(hoy2),'days'))
+    //console.log(tareas.length)
+    
+    //let up = (String(tareas[0]['fechaUpdate']).split('T'))[0]
+
+    //console.log(Math.abs(moment(this.fechaINicio).diff(moment(up),'days')))
+
+    
+    for (let j = 0; j < TiempoSprint; j++) {
+      this.lineChartLabels[j] = `Dia ${j+1}`;
+      if( j <= TimepoHoy){
+        for (let i = 0; i < tareas.length; i++) {
+          if(tareas[i]['status'] == 'Done'){
+            let fechaS = (String(tareas[i]['fechaUpdate']).split('T'))[0]
+            let fechaN = Math.abs(moment(this.fechaINicio).diff(moment(fechaS),'days'))//la diferencia de dias con el inicio del sprint
+            if (fechaN == j) {
+              this.puntos[j] = this.puntos[j]-1;
+            }
+          }
+        }
+        this.puntos[j+1]= this.puntos[j]
+      }
+      this.puntosCorrectos[j] = tareas.length - (tareas.length/(TiempoSprint-1))*(j)
+    }
+    this.lineChartData[0].data = this.puntos
+    this.lineChartData[1].data = this.puntosCorrectos
+    //console.log(this.puntos)
+  }
 
   separar(tareas:any){
     let contNotDone =0;
@@ -101,7 +215,7 @@ export class ChartComponent {
         contDone = contDone+1;
       }
     }
-    console.log(contDone,contInProgress,contNotDone)
+   // console.log(contDone,contInProgress,contNotDone)//imprime las tareas por sus estado
     this.barChartData[0].data = [contNotDone];
     this.barChartData[1].data = [contInProgress];
     this.barChartData[2].data = [contDone];
@@ -120,7 +234,30 @@ export class ChartComponent {
   }
 
   public randomize(): void {//Cambio de graficas
-    this.cambio = !this.cambio;
+    if (!this.barras) {
+      this.ActBar = 'Ocultar' 
+    }else{
+      this.ActBar ='Mostrar'
+    }
+
+    this.barras = !this.barras;
+
+  }
+  ranpastel(){
+    if (!this.pastel) {
+      this.ActPas = 'Ocultar' 
+    }else{
+      this.ActPas ='Mostrar'
+    }
+    this.pastel = !this.pastel
+  }
+  ranlineal(){
+    if (!this.pendiente) {
+      this.ActPen = 'Ocultar' 
+    }else{
+      this.ActPen ='Mostrar'
+    }
+    this.pendiente = !this.pendiente
   }
 //-----------------------------------------------------PIE
   public pieChartOptions: ChartOptions = {
@@ -152,6 +289,59 @@ export class ChartComponent {
     },
   ];
 
+  makePDF(){
 
+    const DATA :any = document.getElementById('content');
+    const data2:any = document.querySelector('#content')
+    //console.log(DATA.offsetHeight)
+    DATA.style.height = DATA.scrollHeight +'px';
+
+/*     const div =document.createElement('div');
+    div.textContent = `${this.sprintNombre}`;
+    
+    const data2:any = document.querySelector('#content')
+
+    data2.insertAdjacentElement('afterbegin',div) */
+    
+    let pdf = new jsPDF('p','pt','a4');
+    let options = {
+      background: 'white',
+      height: DATA.offsetHeight,
+      with: DATA.offsetWidth
+    };
+    html2canvas(DATA,options).then((canvas)=>{
+      const img = canvas.toDataURL('image/PNG');
+
+      //Add image canvas to pdf
+      const bufferX = 15;
+      let bufferY = 15;
+      const imgProps = (pdf as any).getImageProperties(img);
+      const pdfWidth = pdf.internal.pageSize.getWidth()-2 * bufferX;
+      const pageHeight = pdf.internal.pageSize.getHeight();//size page
+      let pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      let heightLeft  = pdfHeight
+      //console.log(pageHeight,pdfHeight)
+      pdf.addImage(img, 'PNG',bufferX,bufferY,pdfWidth,pdfHeight,undefined, 'FAST');
+      heightLeft -= pageHeight
+      
+      //pdf.addPage();
+      while (heightLeft>=0) {
+        
+        bufferY += heightLeft-pdfHeight
+        pdf.addPage();
+        pdf.addImage(img, 'PNG',bufferX,bufferY,pdfWidth,pdfHeight,undefined, 'FAST');
+        heightLeft-=pageHeight
+ 
+      }
+      return pdf;
+    }).then((docResult)=>{
+      docResult.save(`${this.hoy}_sprint_${this.sprintNombre}.pdf`)
+      
+      docResult.output('dataurlnewwindow')
+    })
+ 
+
+  }
+ 
 
 }
