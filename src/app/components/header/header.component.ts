@@ -103,7 +103,7 @@ valores(user_id:any, user_anem:any):any{
 
       const msg = 'Ups tienes que iniciar sesión'
       window.alert(msg);
-      console.log('listo')
+      //console.log('listo')
       this.router.navigateByUrl('/')
     }
    }
@@ -137,7 +137,7 @@ valores(user_id:any, user_anem:any):any{
     })
     this.exp = false;
     this.notIcon = this.notIcon+1;//se suma
-    console.log(this.outnot)
+    //console.log(this.outnot)
   }
 
 

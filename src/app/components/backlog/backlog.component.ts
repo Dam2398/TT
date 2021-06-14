@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-backlog',
@@ -61,8 +62,12 @@ export class BacklogComponent implements OnInit {
     await promiseTasks.then((data) => {
       this.backlog = data;
     }).catch((error) => {
-      window.alert('No hay tareas')
-      console.log(error);
+      Swal.fire({
+        title: 'Oops..',
+        text: 'Parece que algo salio mal',
+        icon: 'error', //error or success
+        confirmButtonText: 'Ok'
+      })
     })
 
     await this.backlogOrder(this.backlog, this.teamURP);
@@ -77,6 +82,7 @@ export class BacklogComponent implements OnInit {
   }
   
   async backlogOrder(these: any, usersURP: any) {
+    let modalOnEdit = false;
     let idPrior;
     for(let i = 0; i < these.length; i++) {
       if(these[i].priority == 'Prioritario') {
@@ -91,6 +97,7 @@ export class BacklogComponent implements OnInit {
 
       if(these[i].urpId == null) {
         these[i].urpId = 'Sin Asignar'
+        modalOnEdit = true
       } else {
         for(let j = 0; j < usersURP.length; j++) {
           if(these[i].urpId == usersURP[j].id) {
@@ -101,6 +108,9 @@ export class BacklogComponent implements OnInit {
             }).catch((error) => {
               console.log(error);
             })
+            if(usersURP[j].userId == this.idUser) {
+              modalOnEdit = true
+            }
           }
         }
       }
@@ -121,7 +131,8 @@ export class BacklogComponent implements OnInit {
         "priority": these[i].priority,
         'order': idPrior,
         'assigned': these[i].urpId,
-        'sprintId': these[i].sprintId
+        'sprintId': these[i].sprintId,
+        'modalOn': modalOnEdit
       });
 
       this.tasks = this.oneTask;
@@ -133,7 +144,6 @@ export class BacklogComponent implements OnInit {
   }
 
   async getAlllUsers(these: any) {
-    console.log(these)
     for(let i = 0; i < these.length; i++) {
 
       let PromiseUserbyId = this.httpClient.get(this.urlTasks + 'users/' + these[i].userId).toPromise();
@@ -177,8 +187,20 @@ export class BacklogComponent implements OnInit {
     this.httpClient.patch<any>(this.urlTasks + 'tareas/edit/' + this.idEditTask + '?sprintId=' + this.idSprint +'&userId=' + this.idUser + '&projectId=' + this.idProject ,this.editTask, {headers}).subscribe(response => {
       if (response.msg == 'Tarea update'){
         this.router.navigate(['Backlog/Proyecto/' + this.idProject])
+        Swal.fire({
+          title: 'Excelente',
+          text: 'Tarea actualizada',
+          icon: 'success', //error or success
+          confirmButtonText: 'Ok'
+        })
       } else {
         //handdle errors
+        Swal.fire({
+          title: 'Oops..',
+          text: 'Parece que algo salio mal',
+          icon: 'error', //error or success
+          confirmButtonText: 'Ok'
+        })
       }
     })
   }

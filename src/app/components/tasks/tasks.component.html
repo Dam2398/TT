@@ -34,7 +34,7 @@
               <th scope="col">Fecha Inicio</th>
               <th scope="col">Fecha Fin</th>
               <th>
-                  <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#NewSprint">Agregar Sprint</button>
+                  <button *ngIf="roleUser != 'Developer'" type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#NewSprint">Agregar Sprint</button>
               </th>
               <th>
                 <i class="fas fa-chalkboard-teacher fa-2x"  role="button" (click)="onKanbas()"></i>
@@ -57,7 +57,7 @@
                 <i class="far fa-chart-bar fa-2x" role="button" style="float:left" (click)="goChart(this.selectedItem)"></i>
               </td>
               <td *ngIf="buttonShown">
-                <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#NewTask">+ Tarea</button>
+                <button *ngIf="roleUser != 'Developer'" type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#NewTask">+ Tarea</button>
               </td>
             </tr>
           </tbody>

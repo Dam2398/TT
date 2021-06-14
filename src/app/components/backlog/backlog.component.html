@@ -6,7 +6,7 @@
       <h5 class="card-subtitle mb-2 text-muted">{{item?.priority}}</h5>
       <p class="card-text">{{item?.description}}</p>
       <div style="margin-bottom: 2%;">
-        <a class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#EditTask" (click)="seeTask(item)">Editar</a>
+        <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#EditTask" [disabled]='item.modalOn == false' (click)="seeTask(item)">Editar</button>
       </div>
       <div class="card-footer text-muted">
         Status: {{item?.status}} &nbsp; &nbsp; {{item?.assigned}}

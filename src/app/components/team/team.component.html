@@ -6,7 +6,7 @@
                     <tr colspan="4">
                         <h4>Development Team</h4>
                         <th scope="col"></th>
-                        <th scope="col"><button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#NewTeammate">+ Invitar</button></th>
+                        <th scope="col"><button *ngIf="roleUser != 'Developer'" type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#NewTeammate">+ Invitar</button></th>
                     </tr>
                     <tr>
                         <th scope="col">Nombre</th>
