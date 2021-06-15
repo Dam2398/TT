@@ -2,7 +2,7 @@
   "name": "front-tt",
   "version": "0.0.0",
   "scripts": {
-    "deploy": "ng deploy --base-href=./ --no-silent",
+    "deploy": "ng deploy --base-href=https://dam2398.github.io/TT/ --no-silent",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
