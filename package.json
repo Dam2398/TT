@@ -2,6 +2,7 @@
   "name": "front-tt",
   "version": "0.0.0",
   "scripts": {
+    "deploy": "ng deploy --base-href=./ --no-silent",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -11,7 +12,6 @@
   },
   "private": true,
   "dependencies": {
-    "@nidi/html2canvas": "1.0.0-rc.8",
     "@angular/animations": "~11.2.11",
     "@angular/common": "~11.2.11",
     "@angular/compiler": "~11.2.11",
@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "~11.2.11",
     "@angular/router": "~11.2.11",
     "@auth0/angular-jwt": "^5.0.2",
+    "@nidi/html2canvas": "1.0.0-rc.8",
+    "angular-cli-ghpages": "^1.0.0-rc.2",
     "bootstrap-icons": "^1.4.1",
     "chart.js": "^2.9.3",
     "html2canvas": "^1.0.0-rc.7",
